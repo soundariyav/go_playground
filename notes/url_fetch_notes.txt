@@ -1,0 +1,26 @@
+
+Here this is the program to fetch all URLs concurrently using go and print the output of how many bytes
+are there and the time elapsed to fetch.
+
+First we saw about go routines. 
+
+Go routines
+    Lightweight threads managed by go.
+   To use this we add a prefix go
+   Example Go.fetch(url)
+
+Channels
+    Used for communication between goroutines.
+    Send data into a channel with ch <- value.
+    Receive data from a channel with <-ch.
+    They help avoid explicit locking (like mutexes), since communication is synchronised.
+    
+
+io.Copy(dst, src)
+Copies data from src (a reader) to dst (a writer).
+Here:
+src = resp.Body (the HTTP response stream).
+dst = io.Discard (special writer that throws away data).
+This way, we just measure the size of the response (bytes copied), without storing it.
+
+
