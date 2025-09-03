@@ -1,0 +1,87 @@
+1. Variable Declaration
+Syntax:
+var name type = value
+If you omit the value, Go assigns a zero value automatically:
+var x int     // x == 0
+var b bool    // b == false
+var s string  // s == ""
+You can declare multiple variables at once:
+var a, b, c int = 1, 2, 3
+
+2. Short Variable Declaration
+For local variables, you can skip var using :=:
+i, err := arr[0], nil
+Go infers the type automatically.
+
+
+3. Lifetime of Variables
+Go automatically manages variable lifetime.
+Escape analysis decides if a variable should live on the stack or heap:
+If a variable is needed beyond its local scope, it is moved to the heap.
+No need to manually free memory — Go’s garbage collector handles heap cleanup.
+func f() *int {
+    x := 10
+    return &x // x “escapes” to heap
+}
+Similarly, using new also allocates memory on the heap; no delete required:
+p := new(int) // p points to heap memory
+
+What is a Package?
+A package is a collection of Go source files in the same directory with the same package name.
+Packages allow modularity, organization, and code reuse.
+Every Go program starts with a main package:
+package main
+
+func main() {
+    println("Hello, world")
+}
+2. Package Declaration
+Each file starts with:
+package name
+Example:
+// geometry/point.go
+package geometry
+
+type Point struct {
+    X, Y int
+}
+All files in geometry/ with package geometry belong to the same package.
+3. Importing Packages
+Use import to include packages:
+import "fmt"
+import "myproject/geometry"
+Or grouped imports:
+import (
+    "fmt"
+    "myproject/geometry"
+)
+4. Visibility / Exported Identifiers
+Identifiers that start with a capital letter are exported (public) and visible outside the package.
+Identifiers that start with a lowercase letter are unexported (private) to the package.
+type Point struct { // exported
+    X, Y int
+}
+
+func add(p1, p2 Point) Point { // unexported
+    return Point{p1.X + p2.X, p1.Y + p2.Y}
+}
+
+5. Entry Point
+Execution starts in the main() function of the main package.
+Example:
+package main
+
+import (
+    "fmt"
+    "myproject/geometry"
+)
+
+func main() {
+    p := geometry.Point{1, 2}
+    fmt.Println(p)
+}
+
+6. Files in a Package
+A package can have multiple .go files.
+Compiler compiles all files in the directory together.
+Directory ≈ package.
